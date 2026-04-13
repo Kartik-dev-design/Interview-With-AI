@@ -5,7 +5,7 @@ import { Routes,Route } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setUserData } from "./redux/userslice.js";
-export const serverUrl="http://localhost:8000"
+export const serverUrl="https://interview-with-ai-c363.onrender.com"
 import axios from 'axios'
 import InterviewPage from './pages/InterviewPage.jsx'
 import InterviewHistory from './pages/InterviewHistory.jsx'
