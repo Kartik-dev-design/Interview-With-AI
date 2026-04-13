@@ -30,9 +30,6 @@ function Step1Setup({onStart}) {
   `${serverUrl}/api/interview/resume`,
   formData,
   {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
     withCredentials: true,
   }
 );
