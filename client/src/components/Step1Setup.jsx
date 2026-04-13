@@ -26,9 +26,16 @@ function Step1Setup({onStart}) {
          const formData=new    FormData();
             formData.append("resume",resumeFile);
        try {
-         const result=await axios.post( `${serverUrl}/api/interview/resume`,formData,{
-           withCredentials:true,
-       })
+         const result = await axios.post(
+  `${serverUrl}/api/interview/resume`,
+  formData,
+  {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+    withCredentials: true,
+  }
+);
        console.log(result.data);
        setRole(result.data.role || "");
        setExperience(result.data.experience || "");
