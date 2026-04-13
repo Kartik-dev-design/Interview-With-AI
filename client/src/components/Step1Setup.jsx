@@ -3,7 +3,6 @@ import {motion} from "motion/react"
 import {FaUserTie,FaMicrophoneAlt,FaChartLine,FaBriefcase,FaFileUpload} from "react-icons/fa"
 import { useState } from 'react'
 import axios from 'axios'
-import { set } from 'mongoose'
 import { serverUrl } from '../App'
 import { useSelector } from 'react-redux'
 import { setUserData } from '../redux/userslice'
