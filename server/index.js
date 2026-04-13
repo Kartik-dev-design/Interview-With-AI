@@ -15,6 +15,7 @@ app.use(cors({
 dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth",authrouter)
 app.use("/api/user",userrouter)
 app.use("/api/interview",interviewRouter)
