@@ -9,11 +9,8 @@ export const analyzeResume = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "Resume required" });
     }
-    const filepath = req.file.path
-
-    const fileBuffer = await fs.promises.readFile(filepath)
-    const uint8Array = new Uint8Array(fileBuffer)
-
+const fileBuffer = req.file.buffer;
+const uint8Array = new Uint8Array(fileBuffer);
     const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
 
     let resumeText = "";
