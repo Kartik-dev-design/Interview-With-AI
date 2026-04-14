@@ -56,7 +56,7 @@ Return strictly JSON:
 
     const parsed = JSON.parse(aiResponse);
 
-    fs.unlinkSync(filepath)
+   // fs.unlinkSync(filepath)
 
 
     res.json({
