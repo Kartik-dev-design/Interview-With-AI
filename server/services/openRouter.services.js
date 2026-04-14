@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const askAi = async (messages) => {
     try {
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -11,23 +13,14 @@ export const askAi = async (messages) => {
                 messages: messages
             },
             {
-                const response = await axios.post(
-  "https://openrouter.ai/api/v1/chat/completions",
-  {
-    model: "openai/gpt-3.5-turbo",
-    messages
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-      "Content-Type": "application/json",
-      "HTTP-Referer": "https://interview-with-ai-client.onrender.com",
-      "X-Title": "Interview AI",
-      "User-Agent": "Mozilla/5.0"
-    },
-    timeout: 20000
-  }
-);
+                headers: {
+                    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://interview-with-ai-client.onrender.com",
+                    "X-Title": "Interview AI",
+                    "User-Agent": "Mozilla/5.0"
+                },
+                timeout: 20000
             }
         );
 
