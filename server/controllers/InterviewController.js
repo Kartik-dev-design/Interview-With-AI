@@ -9,33 +9,28 @@ export const analyzeResume = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "Resume required" });
     }
-const fileBuffer = req.file.buffer;
-const uint8Array = new Uint8Array(fileBuffer);
+
+    const fileBuffer = req.file.buffer;
+    const uint8Array = new Uint8Array(fileBuffer);
+
     const pdf = await pdfjsLib.getDocument({ data: uint8Array }).promise;
 
     let resumeText = "";
 
-    // Extract text from all pages
     for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
       const page = await pdf.getPage(pageNum);
       const content = await page.getTextContent();
-
       const pageText = content.items.map(item => item.str).join(" ");
       resumeText += pageText + "\n";
     }
 
-
-    resumeText = resumeText
-      .replace(/\s+/g, " ")
-      .trim();
+    resumeText = resumeText.replace(/\s+/g, " ").trim();
 
     const messages = [
       {
         role: "system",
         content: `
-Extract structured data from resume.
-
-Return strictly JSON:
+Return ONLY valid JSON (no explanation, no text).
 
 {
   "role": "string",
@@ -51,13 +46,18 @@ Return strictly JSON:
       }
     ];
 
+    const aiResponse = await askAi(messages);
 
-    const aiResponse = await askAi(messages)
-
-    const parsed = JSON.parse(aiResponse);
-
-   // fs.unlinkSync(filepath)
-
+    let parsed;
+    try {
+      parsed = JSON.parse(aiResponse);
+    } catch (e) {
+      console.log("RAW AI RESPONSE:", aiResponse);
+      return res.status(500).json({
+        message: "AI returned invalid JSON",
+        raw: aiResponse
+      });
+    }
 
     res.json({
       role: parsed.role,
@@ -69,11 +69,6 @@ Return strictly JSON:
 
   } catch (error) {
     console.error(error);
-
-    if (req.file && fs.existsSync(req.file.path)) {
-      fs.unlinkSync(req.file.path);
-    }
-
     return res.status(500).json({ message: error.message });
   }
 };
