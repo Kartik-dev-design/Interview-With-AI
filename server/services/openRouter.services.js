@@ -11,12 +11,23 @@ export const askAi = async (messages) => {
                 messages: messages
             },
             {
-                headers: {
-                    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": "https://interview-with-ai-client.onrender.com", // 🔥 REQUIRED
-                    "X-Title": "Interview AI" // 🔥 REQUIRED
-                }
+                const response = await axios.post(
+  "https://openrouter.ai/api/v1/chat/completions",
+  {
+    model: "openai/gpt-3.5-turbo",
+    messages
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      "Content-Type": "application/json",
+      "HTTP-Referer": "https://interview-with-ai-client.onrender.com",
+      "X-Title": "Interview AI",
+      "User-Agent": "Mozilla/5.0"
+    },
+    timeout: 20000
+  }
+);
             }
         );
 
