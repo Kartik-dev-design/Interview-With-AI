@@ -8,10 +8,16 @@ import userrouter from './routes/user.routes.js';
 import interviewRouter from './routes/interview.route.js';
 import paymentRouter from './routes/payment.route.js';
 const app=express();
-app.use(cors({
-    origin:"https://interview-with-ai-client.onrender.com",
-    credentials:true
-}))
+
+const corsOptions = {
+    origin: "https://interview-with-ai-client.onrender.com",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+};
+
+app.use(cors(corsOptions));
+
 dotenv.config();
 app.use(express.json());
 app.use(cookieParser());
